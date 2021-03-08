@@ -1,18 +1,128 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container>
+    <div class="home">
+      <h1>¡Hola Janna!!!</h1>
+      <h2>Korean</h2>
+      <!--Las Flashcards-->
+
+      <h3>{{ value + 1 }}</h3>
+      <v-btn><v-icon v-on:click="del()">mdi-delete</v-icon></v-btn>
+      <flashcard :front="cards[value].front" :back="cards[value].back"> </flashcard>
+      <v-btn v-on:click="value--" style="position: relative; bottom: 140px; right: 280px"
+        ><v-icon>mdi-keyboard-backspace</v-icon></v-btn
+      >
+      <v-btn
+        v-on:click="value++"
+        style="position: relative; bottom: 140px; left: 280px; transform: rotate(180deg)"
+        ><v-icon>mdi-keyboard-backspace</v-icon></v-btn
+      >
+      <!--Boton para añadir mas flascards-->
+      <b-icon
+        style="position: fixed; bottom: 20px; right: 25px; font-size: 2em"
+        icon="plus-circle-fill"
+        variant="primary"
+        v-on:click="FormGroup = true"
+      ></b-icon>
+      <v-dialog v-model="FormGroup">
+        <v-card style="padding: 20px">
+          <v-text-field
+            name="input-7-1"
+            filled
+            label="Parte delantera"
+            auto-grow
+            v-model="PartF"
+          ></v-text-field>
+          <v-text-field
+            name="input-7-1"
+            filled
+            label="Parte trasera"
+            auto-grow
+            v-model="PartB"
+          ></v-text-field>
+          <b-form-group label="Individual radios" v-slot="{ ariaDescribedby }">
+            <b-form-radio
+              v-model="collection"
+              :aria-describedby="ariaDescribedby"
+              name="some-radios"
+              value="Coreano"
+              >Coreano</b-form-radio
+            >
+            <b-form-radio
+              v-model="collection"
+              :aria-describedby="ariaDescribedby"
+              name="some-radios"
+              value="Ingles"
+              >Ingles</b-form-radio
+            >
+            <b-form-radio
+              v-model="collection"
+              :aria-describedby="ariaDescribedby"
+              name="some-radios"
+              value="Otros"
+              >Otros</b-form-radio
+            >
+          </b-form-group>
+
+          <v-btn v-on:click="FormGroup = false" style="margin-right: 15px"
+            >Cancelar</v-btn
+          >
+          <v-btn v-on:click="add()">Crear</v-btn>
+        </v-card>
+      </v-dialog>
+    </div>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Flashcard from "../components/Flashcard.vue";
+
+// @ is an alias to
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  name: "Home",
+  data() {
+    return {
+      value: 0,
+      cards: [],
+      collection: "",
+      FormGroup: false,
+      PartF: "",
+      PartB: "",
+      items: ["Coreano", "Ingles", "Otros"],
+    };
+  },
+  components: { Flashcard },
+  methods: {
+    add() {
+      this.cards.push({ front: this.PartF, back: this.PartB, group: this.collection });
+      //Valores por default
+      this.FormGroup = false;
+      this.PartF = "";
+      this.PartB = "";
+      this.collection = "";
+      //Subiendo valores al localStorage
+      localStorage.setItem("cards", JSON.stringify(this.cards));
+    },
+    del() {
+      this.cards.splice(1, this.value);
+      localStorage.setItem("cards", JSON.stringify(this.cards));
+      console.log(this.cards);
+    },
+  },
+  mounted() {
+    //Establece el LocalStorage sino esta establecido
+    // O hace que "cards" sea igual a localStorage si existe
+    if (localStorage.getItem("cards") == null) {
+      localStorage.setItem("cards", []);
+    } else {
+      this.cards = JSON.parse(localStorage.getItem("cards"));
+    }
+  },
+};
 </script>
+
+<style>
+svg {
+  font-size: 2em;
+}
+</style>
