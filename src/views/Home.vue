@@ -5,16 +5,10 @@
       <h2>Korean</h2>
       <!--Las Flashcards-->
 
-      <h3>{{ value + 1 }}</h3>
-      <flashcard :front="cards[value].front" :back="cards[value].back"> </flashcard>
-      <v-btn v-on:click="value--" style="position: relative; bottom: 140px; right: 280px"
-        ><v-icon>mdi-keyboard-backspace</v-icon></v-btn
-      >
-      <v-btn
-        v-on:click="value++"
-        style="position: relative; bottom: 140px; left: 280px; transform: rotate(180deg)"
-        ><v-icon>mdi-keyboard-backspace</v-icon></v-btn
-      >
+      <div v-for="(card, idx) in cards">
+        <flashcard :front="card.front" :back="card.back"> </flashcard>
+      </div>
+
       <!--Boton para añadir mas flascards-->
       <b-icon
         style="position: fixed; bottom: 20px; right: 25px; font-size: 2em"
@@ -108,13 +102,13 @@ export default {
       console.log(this.cards);
     },
   },
-  mounted() {
+  async mounted() {
     //Establece el LocalStorage sino esta establecido
     // O hace que "cards" sea igual a localStorage si existe
     if (localStorage.getItem("cards") == null) {
       localStorage.setItem("cards", []);
     } else {
-      this.cards = JSON.parse(localStorage.getItem("cards"));
+      this.cards = await JSON.parse(localStorage.getItem("cards"));
     }
   },
 };
