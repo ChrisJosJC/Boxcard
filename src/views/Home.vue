@@ -6,7 +6,6 @@
       <!--Las Flashcards-->
 
       <h3>{{ value + 1 }}</h3>
-      <v-btn><v-icon v-on:click="del()">mdi-delete</v-icon></v-btn>
       <flashcard :front="cards[value].front" :back="cards[value].back"> </flashcard>
       <v-btn v-on:click="value--" style="position: relative; bottom: 140px; right: 280px"
         ><v-icon>mdi-keyboard-backspace</v-icon></v-btn
@@ -83,7 +82,7 @@ export default {
   data() {
     return {
       value: 0,
-      cards: [],
+      cards: [{ front: "배우다", back: "Aprender" }],
       collection: "",
       FormGroup: false,
       PartF: "",

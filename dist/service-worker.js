@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.bad0d31f12c3d8c322aee78f308a57fd.js"
+  "/precache-manifest.67200782efa35bbf226cb0129cd481d4.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "janncards"});
