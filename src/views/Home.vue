@@ -5,7 +5,7 @@
       <h2>Korean</h2>
       <!--Las Flashcards-->
 
-      <div v-for="(card, idx) in cards">
+      <div v-for="card in cards" :key="card">
         <flashcard :front="card.front" :back="card.back"> </flashcard>
       </div>
 
@@ -108,7 +108,7 @@ export default {
     if (localStorage.getItem("cards") == null) {
       localStorage.setItem("cards", []);
     } else {
-      this.cards = await JSON.parse(localStorage.getItem("cards"));
+      this.cards = localStorage.getItem("cards");
     }
   },
 };
